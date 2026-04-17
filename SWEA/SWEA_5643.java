@@ -32,10 +32,13 @@ public class SWEA_5643 {
                 dp[a][b] = 1;
             }
 
-            for (int k = 1; k <= N; k++) {
-                for (int i = 1; i <= N; i++) {
+            for (int k = 1; k <= N; k++) {  //경유 학생 1
+                for (int i = 1; i <= N; i++) {  //출발 학생 1
+                    if(i==k || dp[i][k] == 0) continue;
                     for (int j = 1; j <= N; j++) {
+                        if(dp[i][j] == 1) continue;
                         dp[i][j] = Math.min(dp[i][j], dp[i][k] + dp[k][j]);
+                        // dp[i][j] = dp[i][k] & dp[k][j];
                     }
                 }
             }

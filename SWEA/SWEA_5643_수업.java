@@ -1,0 +1,68 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
+
+public class SWEA_5643_수업 {
+    static int N, adj[][];
+    static int cnt;
+
+    public static void main(String[] args) throws NumberFormatException, IOException {
+        BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+        int TC = Integer.parseInt(in.readLine());
+
+        for (int tc = 1; tc <= TC; tc++) {
+            N = Integer.parseInt(in.readLine());
+            int M = Integer.parseInt(in.readLine());
+            adj = new int[N + 1][N + 1];
+
+            StringTokenizer st;
+            for (int i = 0; i < M; i++) {
+                st = new StringTokenizer(in.readLine(), " ");
+                int a = Integer.parseInt(st.nextToken());
+                int b = Integer.parseInt(st.nextToken());
+                adj[a][b] = 1;
+            }
+
+            int answer = 0; // 자신의 키 순서를 알 수 있는 학생 수
+
+            for (int i = 1; i <= N; i++) {
+                cnt = 0;
+                boolean[] visited = new boolean[N + 1];
+                gtDFS(i, visited);
+                ltDFS(i, visited);
+                if (cnt == N - 1) {
+                    ++answer;
+                }
+            }
+
+            System.out.println("#" + tc + " " + answer);
+        }
+
+    }
+
+    private static void gtDFS(int cur, boolean[] visited) {
+        // 방문 처리
+        visited[cur] = true;
+        // 현 정점의 인접 정점 중 미 방문 정점 따라 검색
+        for (int i = 1; i <= N; i++) {
+            if (adj[cur][i] == 1 && !visited[i]) {
+                ++cnt;
+                gtDFS(i, visited);
+            }
+        }
+    }
+
+    private static void ltDFS(int cur, boolean[] visited) {
+        // 방문 처리
+        visited[cur] = true;
+        // 현 정점의 인접 정점 중 미 방문 정점 따라 검색
+        for (int i = 1; i <= N; i++) {
+            if (adj[i][cur] == 1 && !visited[i]) {
+                ++cnt;
+                ltDFS(i, visited);
+            }
+        }
+    }
+
+}
